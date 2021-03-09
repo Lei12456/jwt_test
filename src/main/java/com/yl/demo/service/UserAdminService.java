@@ -2,6 +2,8 @@ package com.yl.demo.service;
 
 import com.yl.demo.domain.UserAdmin;
 
+import java.util.List;
+
 /**
  * Description:
  *
@@ -10,6 +12,7 @@ import com.yl.demo.domain.UserAdmin;
  */
 public interface UserAdminService {
 
-    UserAdmin getUserByUsername(String username);
+    List<UserAdmin> getUserByUsername(String username);
     void register(UserAdmin userAdmin);
+    String login(String username,String password);
 }

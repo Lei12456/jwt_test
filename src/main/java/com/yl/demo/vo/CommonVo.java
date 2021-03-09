@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class CommonVo implements Serializable {
     private static final long serialVersionUID = -4906665999537007033L;
 
-    private int code;
+    private long code;
     private String msg;
     private Object result;
 }
