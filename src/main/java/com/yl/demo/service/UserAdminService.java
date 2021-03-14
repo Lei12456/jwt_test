@@ -1,6 +1,7 @@
 package com.yl.demo.service;
 
 import com.yl.demo.domain.UserAdmin;
+import com.yl.demo.domain.UserPermission;
 
 import java.util.List;
 
@@ -12,7 +13,10 @@ import java.util.List;
  */
 public interface UserAdminService {
 
-    List<UserAdmin> getUserByUsername(String username);
+    UserAdmin getUserByUsername(String username);
     void register(UserAdmin userAdmin);
-    String login(String username,String password);
+    String login(String username,String password) throws Exception;
+    List<UserPermission> getPermissionList(Long userId);
+    UserAdmin getUserByToken(String token);
+
 }

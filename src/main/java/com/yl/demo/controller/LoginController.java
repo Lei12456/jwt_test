@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
@@ -19,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Description:
@@ -29,28 +32,42 @@ import java.util.List;
  */
 @Api(tags = "LoginController", description = "登录界面")
 @Controller
-@RequestMapping("/userAdmin")
+@RequestMapping("/")
 @Slf4j
 public class LoginController {
 
     @Autowired
     private UserAdminService userAdminService;
 
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    @Value("${jwt.tokenHead}")
+    private String tokenHead;
 
     private Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @ApiOperation("登录界面")
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(value = "login", method = RequestMethod.GET)
     @ResponseBody
     public CommonVo login(String username ,String password){
-
-        return null;
+        CommonVo commonVo = new CommonVo();
+        try {
+            Map<String, Object> tokenMap = new HashMap<>();
+            String token = userAdminService.login(username, password);
+            commonVo.setCode(ResultCode.SUCCESS.getCode());
+            commonVo.setMsg(ResultCode.SUCCESS.getMessage());
+            tokenMap.put("tokenHead",tokenHead);
+            tokenMap.put("token",tokenHead+token);
+            commonVo.setResult(tokenMap);
+            logger.info("登录成功");
+        }catch (Exception e){
+            commonVo.setCode(ResultCode.FAILED.getCode());
+            commonVo.setMsg(ResultCode.FAILED.getMessage());
+            logger.error("登录失败");
+        }
+        return commonVo;
     }
 
     @ApiOperation("注册界面")
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    @RequestMapping(value = "register", method = RequestMethod.GET)
     @ResponseBody
     public CommonVo register(String username,String password){
         CommonVo commonVo = new CommonVo();

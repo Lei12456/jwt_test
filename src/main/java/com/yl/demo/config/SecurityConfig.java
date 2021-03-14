@@ -1,6 +1,8 @@
 package com.yl.demo.config;
 
 import com.yl.demo.domain.UserAdmin;
+import com.yl.demo.domain.UserPermission;
+import com.yl.demo.dto.AdminUserDetails;
 import com.yl.demo.service.UserAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -56,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/v2/api-docs/**"
                 )
                 .permitAll()
-                .antMatchers("/userAdmin/login", "/userAdmin/register")// 对登录注册要允许匿名访问
+                .antMatchers("/login", "/register")// 对登录注册要允许匿名访问
                 .permitAll()
                 .antMatchers(HttpMethod.OPTIONS)//跨域请求会先进行一次options请求
                 .permitAll()
@@ -89,11 +91,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public UserDetailsService userDetailsService() {
         //获取登录用户信息
         return username -> {
-            List<UserAdmin> admin = adminService.getUserByUsername(username);
-            // if (admin != null) {
-            //     List<UmsPermission> permissionList = adminService.getPermissionList(admin.getId());
-            //     return new AdminUserDetails(admin,permissionList);
-            // }
+            UserAdmin admin = adminService.getUserByUsername(username);
+            if (admin != null) {
+                List<UserPermission> permissionList = adminService.getPermissionList(admin.getId());
+                return new AdminUserDetails(admin,permissionList);
+            }
             throw new UsernameNotFoundException("用户名或密码错误");
         };
     }
