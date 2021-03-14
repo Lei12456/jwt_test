@@ -36,6 +36,40 @@
     </content>
     <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/.." />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/../IdeaProject/.mvn/wrapper" />
+          <root url="file://$MODULE_DIR$/../IdeaProject/src/main/java" />
+          <root url="file://$MODULE_DIR$/../IdeaProject/src/test/java" />
+          <root url="file://$MODULE_DIR$/../elk/.mvn/wrapper" />
+          <root url="file://$MODULE_DIR$/../elk/src/main/java" />
+          <root url="file://$MODULE_DIR$/../elk/src/test/java" />
+          <root url="file://$MODULE_DIR$/../freemakerTest/.mvn/wrapper" />
+          <root url="file://$MODULE_DIR$/../freemakerTest/src/main/java" />
+          <root url="file://$MODULE_DIR$/../freemakerTest/src/test/java" />
+          <root url="file://$MODULE_DIR$/src/main/java" />
+          <root url="file://$MODULE_DIR$/src/test/java" />
+          <root url="file://$MODULE_DIR$/../jwt_test_pre/src/main/java" />
+          <root url="file://$MODULE_DIR$/../jwt_test_pre/src/test/java" />
+          <root url="file://$MODULE_DIR$/../ylzlzz_nkj_shrjby/src" />
+          <root url="file://$MODULE_DIR$/../ylzlzz_nkj_shrjby/work" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-data-jpa:2.5.0-M2" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-aop:2.5.0-M2" level="project" />
     <orderEntry type="library" name="Maven: org.aspectj:aspectjweaver:1.9.6" level="project" />
