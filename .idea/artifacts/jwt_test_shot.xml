@@ -1,6 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="jwt_test.shot">
-    <output-path>$PROJECT_DIR$/out/artifacts/jwt_test_shot</output-path>
-    <root id="archive" name="jwt_test.shot.jar" />
-  </artifact>
-</component>
