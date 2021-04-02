@@ -13,7 +13,7 @@ import java.io.IOException;
 
 /**
  * 当访问接口没有权限时，自定义的返回结果
- * Created by macro on 2018/4/26.
+ *
  */
 @Component
 public class RestfulAccessDeniedHandler implements AccessDeniedHandler{
@@ -23,6 +23,7 @@ public class RestfulAccessDeniedHandler implements AccessDeniedHandler{
                        AccessDeniedException e) throws IOException, ServletException {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
+        response.setHeader("Access-Control-Allow-Origin", "*");
         response.getWriter().println(JSONUtil.parse(CommonResult.forbidden(e.getMessage())));
         response.getWriter().flush();
     }

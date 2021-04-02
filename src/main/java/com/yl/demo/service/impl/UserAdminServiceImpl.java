@@ -4,18 +4,14 @@ import com.yl.demo.common.util.JwtTokenUtil;
 import com.yl.demo.dao.PermissionRepository;
 import com.yl.demo.dao.UserAdminRepository;
 import com.yl.demo.dao.UserPermissionRelationRepository;
-import com.yl.demo.domain.UserPermission;
-import com.yl.demo.domain.UserAdmin;
-import com.yl.demo.domain.UserPermissionRelation;
+import com.yl.demo.domain.TUserPermission;
+import com.yl.demo.domain.TUserAdmin;
+import com.yl.demo.domain.TUserPermissionRelation;
 import com.yl.demo.service.UserAdminService;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -34,15 +30,8 @@ import java.util.List;
 @Slf4j
 public class UserAdminServiceImpl implements UserAdminService {
 
-    // @Autowired
-    // private UserAdminMapper userAdminMapper;
-    private Logger logger = LoggerFactory.getLogger(UserAdminServiceImpl.class);
-
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
-
-    @Value("${jwt.tokenHead}")
-    private String tokenHead;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -57,17 +46,15 @@ public class UserAdminServiceImpl implements UserAdminService {
     private PermissionRepository permissionRepository;
 
     @Override
-    public UserAdmin getUserByUsername(String username) {
+    public TUserAdmin getUserByUsername(String username) {
         return userAdminRepository.getUserAdminByUsername(username);
     }
 
     @Override
-    public void register(UserAdmin userAdmin) {
-        if (userAdmin.getUsername() != null) {
-            UserAdmin users = userAdminRepository.getUserAdminByUsername(userAdmin.getUsername());
-            userAdmin.setStatus(4);
-            userAdminRepository.save(userAdmin);
-        }
+    public void register(TUserAdmin tUserAdmin) {
+        tUserAdmin.setPicture("http://39.108.158.38:8888/group1/M00/00/00/J2yeJmBlet2AOuu3AAOazZefOmI24.jpeg");
+        tUserAdmin.setStatus(4);
+        userAdminRepository.save(tUserAdmin);
     }
 
     @Override
@@ -76,7 +63,7 @@ public class UserAdminServiceImpl implements UserAdminService {
         //List<UserAdmin> userAdminByUsername = userAdminRepository.getUserAdminByUsername(username);
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         if (!password.equals(userDetails.getPassword())){
-            logger.warn("密码不正确");
+            log.warn("密码不正确");
             throw new BadCredentialsException("密码不正确");
         }else {
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
@@ -88,23 +75,28 @@ public class UserAdminServiceImpl implements UserAdminService {
     }
 
     @Override
-    public List<UserPermission> getPermissionList(Long userId) {
-        List<UserPermission> userPermissions =  new ArrayList<>();
-        List<UserPermissionRelation> permissionRelations = userPermissionRelationRepository.getUserPerReByUserId(userId);
+    public List<TUserPermission> getPermissionList(Long userId) {
+        List<TUserPermission> tUserPermissions =  new ArrayList<>();
+        List<TUserPermissionRelation> permissionRelations = userPermissionRelationRepository.getUserPerReByUserId(userId);
         permissionRelations.forEach(permission -> {
-            UserPermission userPermission = permissionRepository.getOne(permission.getPermissionId());
-            if(userPermission != null){
-                userPermissions.add(userPermission);
+            TUserPermission TUserPermission = permissionRepository.getUserPermissionById(permission.getPermissionId());
+            if(TUserPermission != null){
+                tUserPermissions.add(TUserPermission);
             }
         });
-        return userPermissions;
+        return tUserPermissions;
     }
 
     @Override
-    public UserAdmin getUserByToken(String token) {
+    public TUserAdmin getUserByToken(String token) {
         String username = jwtTokenUtil.getUserNameFromToken(token);
-        UserAdmin userAdmin = userAdminRepository.getUserAdminByUsername(username);
-        return userAdmin;
+        TUserAdmin tUserAdmin = userAdminRepository.getUserAdminByUsername(username);
+        return tUserAdmin;
+    }
+
+    @Override
+    public void updateUserHeader(String username, String picture) {
+        userAdminRepository.updateUserHeader(username,picture);
     }
 
 }

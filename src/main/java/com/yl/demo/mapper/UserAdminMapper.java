@@ -1,6 +1,6 @@
 package com.yl.demo.mapper;
 
-import com.yl.demo.domain.UserAdmin;
+import com.yl.demo.domain.TUserAdmin;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -14,6 +14,7 @@ import java.util.List;
  */
 @Mapper
 public interface UserAdminMapper {
-    List<UserAdmin> getUserByUsername(@Param("username") String username);
-    void register(UserAdmin userAdmin);
+
+    List<TUserAdmin> getUserByUsername(@Param("username") String username);
+    void register(TUserAdmin TUserAdmin);
 }

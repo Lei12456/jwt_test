@@ -1,8 +1,9 @@
 package com.yl.demo.controller;
 
 import com.yl.demo.common.api.ResultCode;
-import com.yl.demo.common.util.JwtTokenUtil;
-import com.yl.demo.domain.UserAdmin;
+import com.yl.demo.common.util.FastDFSUtils;
+import com.yl.demo.domain.TUserAdmin;
+import com.yl.demo.dto.UserAdminDto;
 import com.yl.demo.service.UserAdminService;
 import com.yl.demo.vo.CommonVo;
 import io.swagger.annotations.Api;
@@ -10,18 +11,13 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,6 +35,9 @@ public class LoginController {
     @Autowired
     private UserAdminService userAdminService;
 
+    @Autowired
+    private FastDFSUtils fastDFSUtils;
+
     @Value("${jwt.tokenHead}")
     private String tokenHead;
 
@@ -55,7 +54,7 @@ public class LoginController {
             commonVo.setCode(ResultCode.SUCCESS.getCode());
             commonVo.setMsg(ResultCode.SUCCESS.getMessage());
             tokenMap.put("tokenHead",tokenHead);
-            tokenMap.put("token",tokenHead+token);
+            tokenMap.put("token",tokenHead+" "+token);
             commonVo.setResult(tokenMap);
             logger.info("登录成功");
         }catch (Exception e){
@@ -67,18 +66,26 @@ public class LoginController {
     }
 
     @ApiOperation("注册界面")
-    @RequestMapping(value = "register", method = RequestMethod.GET)
+    @RequestMapping(value = "register", method = RequestMethod.POST)
     @ResponseBody
-    public CommonVo register(String username,String password){
+    public CommonVo register(UserAdminDto userAdminDto){
         CommonVo commonVo = new CommonVo();
         try {
-            UserAdmin userAdmin = new UserAdmin();
-            userAdmin.setUsername(username);
-            userAdmin.setPassword(password);
-            userAdminService.register(userAdmin);
-            commonVo.setCode(ResultCode.SUCCESS.getCode());
-            commonVo.setMsg(ResultCode.SUCCESS.getMessage());
-            logger.info("用户注册成功");
+            TUserAdmin userAdmin = new TUserAdmin();
+            BeanUtils.copyProperties(userAdminDto, userAdmin);
+            if (userAdminDto.getUsername() != null) {
+                TUserAdmin user = userAdminService.getUserByUsername(userAdminDto.getUsername());
+                if (user == null){
+                    userAdminService.register(userAdmin);
+                    logger.info("用户注册成功");
+                    commonVo.setCode(ResultCode.SUCCESS.getCode());
+                    commonVo.setMsg(ResultCode.SUCCESS.getMessage());
+                }else {
+                    log.warn("用户名已存在");
+                    commonVo.setCode(ResultCode.FAILED.getCode());
+                    commonVo.setMsg("用户名已存在");
+                }
+            }
         }catch (Exception e){
             logger.error("用户注册失败",e);
             commonVo.setCode(ResultCode.FAILED.getCode());

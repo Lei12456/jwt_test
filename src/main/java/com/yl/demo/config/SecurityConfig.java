@@ -1,7 +1,7 @@
 package com.yl.demo.config;
 
-import com.yl.demo.domain.UserAdmin;
-import com.yl.demo.domain.UserPermission;
+import com.yl.demo.domain.TUserAdmin;
+import com.yl.demo.domain.TUserPermission;
 import com.yl.demo.dto.AdminUserDetails;
 import com.yl.demo.service.UserAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +19,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.util.List;
 
 
 /**
  * SpringSecurity的配置
- * Created by macro on 2018/4/26.
  */
 @Configuration
 @EnableWebSecurity
@@ -60,16 +58,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/login", "/register")// 对登录注册要允许匿名访问
                 .permitAll()
-                .antMatchers(HttpMethod.OPTIONS)//跨域请求会先进行一次options请求
-                .permitAll()
-//                .antMatchers("/**")//测试时全部运行访问
-//                .permitAll()
-                .anyRequest()// 除上面外的所有请求全部需要鉴权认证
+//              .antMatchers(HttpMethod.OPTIONS)//跨域请求会先进行一次options请求
+//              .permitAll()
+                .antMatchers("/")//测试时全部运行访问
+//              .permitAll()
+//              .anyRequest()// 除上面外的所有请求全部需要鉴权认证
                 .authenticated();
         // 禁用缓存
         httpSecurity.headers().cacheControl();
         // 添加JWT filter
-        httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        //httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         //添加自定义未授权和未登录结果返回
         httpSecurity.exceptionHandling()
                 .accessDeniedHandler(restfulAccessDeniedHandler)
@@ -91,9 +89,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public UserDetailsService userDetailsService() {
         //获取登录用户信息
         return username -> {
-            UserAdmin admin = adminService.getUserByUsername(username);
+            TUserAdmin admin = adminService.getUserByUsername(username);
             if (admin != null) {
-                List<UserPermission> permissionList = adminService.getPermissionList(admin.getId());
+                List<TUserPermission> permissionList = adminService.getPermissionList(admin.getId());
                 return new AdminUserDetails(admin,permissionList);
             }
             throw new UsernameNotFoundException("用户名或密码错误");

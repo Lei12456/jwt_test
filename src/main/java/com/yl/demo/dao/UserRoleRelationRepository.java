@@ -1,6 +1,6 @@
 package com.yl.demo.dao;
 
-import com.yl.demo.domain.UserRoleRelation;
+import com.yl.demo.domain.TUserRoleRelation;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -9,5 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author angle
  * @date Created on 2021/3/13
  */
-public interface UserRoleRelationRepository extends JpaRepository<UserRoleRelation,Long> {
+public interface UserRoleRelationRepository extends JpaRepository<TUserRoleRelation,Long> {
 }

@@ -1,6 +1,6 @@
 package com.yl.demo.dao;
 
-import com.yl.demo.domain.UserPermission;
+import com.yl.demo.domain.TUserPermission;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -9,5 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author angle
  * @date Created on 2021/3/13
  */
-public interface PermissionRepository extends JpaRepository<UserPermission,Long> {
+public interface PermissionRepository extends JpaRepository<TUserPermission,Long> {
+
+    TUserPermission getUserPermissionById(Long id);
 }

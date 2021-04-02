@@ -1,7 +1,7 @@
 package com.yl.demo.dto;
 
-import com.yl.demo.domain.UserAdmin;
-import com.yl.demo.domain.UserPermission;
+import com.yl.demo.domain.TUserAdmin;
+import com.yl.demo.domain.TUserPermission;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,16 +12,15 @@ import java.util.stream.Collectors;
 
 /**
  * SpringSecurity需要的用户详情
- * Created by macro on 2018/4/26.
  */
 public class AdminUserDetails implements UserDetails {
 
-    private UserAdmin userAdmin;
+    private TUserAdmin TUserAdmin;
 
-    private List<UserPermission> permissionList;
+    private List<TUserPermission> permissionList;
 
-    public AdminUserDetails(UserAdmin userAdmin, List<UserPermission> permissionList) {
-        this.userAdmin = userAdmin;
+    public AdminUserDetails(TUserAdmin TUserAdmin, List<TUserPermission> permissionList) {
+        this.TUserAdmin = TUserAdmin;
         this.permissionList = permissionList;
     }
 
@@ -36,12 +35,12 @@ public class AdminUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return userAdmin.getPassword();
+        return TUserAdmin.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return userAdmin.getUsername();
+        return TUserAdmin.getUsername();
     }
 
     @Override
@@ -61,6 +60,6 @@ public class AdminUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return userAdmin.getStatus().equals(4);
+        return TUserAdmin.getStatus().equals(4);
     }
 }
