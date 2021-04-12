@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.yl</groupId>
-    <artifactId>demo</artifactId>
+    <artifactId>admin</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>demo</name>
-    <description>Demo project for Spring Boot</description>
+    <name>admin</name>
+    <description>Admin project for Spring Boot</description>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -137,7 +137,7 @@
 <!--                            <artifactId>lombok</artifactId>-->
 <!--                        </exclude>-->
 <!--                    </excludes>-->
-                    <mainClass>com.yl.demo.DemoApplication</mainClass>
+                    <mainClass>com.yl.admin.AdminApplication</mainClass>
                     <executable>true</executable>
                 </configuration>
             </plugin>
