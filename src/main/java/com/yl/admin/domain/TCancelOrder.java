@@ -33,7 +33,7 @@ public class TCancelOrder implements Serializable {
     @Column(name = "amount_return")
     private Long amountReturn;      //退款金额
 
-    @Column(name = "modify_time")
+    @Column(name = "create_time")
     private Date submitTime;        //退货订单提交时间
 
     private Integer status;

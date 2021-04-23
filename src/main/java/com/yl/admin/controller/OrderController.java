@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Description:
@@ -118,8 +119,8 @@ public class OrderController {
     public CommonVo getOrderBySubmitOrStatusPage(@RequestBody JSONObject jsonObject){
         CommonVo commonVo = new CommonVo();
         try {
-            List<TOrder> orderList = orderService.getOrderByFilterPage(jsonObject);
-            commonVo.setResult(orderList);
+            Map<String, Object> orderByFilterPage = orderService.getOrderByFilterPage(jsonObject);
+            commonVo.setResult(orderByFilterPage);
             commonVo.setCode(ResultCode.SUCCESS.getCode());
             commonVo.setMsg(ResultCode.SUCCESS.getMessage());
         }catch (Exception e){
@@ -135,7 +136,7 @@ public class OrderController {
     @ResponseBody
     public CommonVo deleteOrder(@RequestBody List<Long> ids){
         CommonVo commonVo = new CommonVo();
-        try {   
+        try {
             if(!CollectionUtils.isEmpty(ids)){
                 orderService.deleteOrder(ids);
             }

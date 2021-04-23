@@ -8,6 +8,7 @@
         <datasource-mapping>
           <factory-entry name="entityManagerFactory" />
           <factory-entry name="jwt_test" />
+          <factory-entry name="tinyMall" value="dfa6abe1-1c2d-4fce-bd1e-19083c71301e" />
         </datasource-mapping>
         <naming-strategy-map />
       </configuration>
@@ -36,31 +37,6 @@
     </content>
     <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/.." />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="file://$MODULE_DIR$/../IdeaProject/.mvn/wrapper" />
-          <root url="file://$MODULE_DIR$/../IdeaProject/src/main/java" />
-          <root url="file://$MODULE_DIR$/../IdeaProject/src/test/java" />
-          <root url="file://$MODULE_DIR$/../elk/.mvn/wrapper" />
-          <root url="file://$MODULE_DIR$/../elk/src/main/java" />
-          <root url="file://$MODULE_DIR$/../elk/src/test/java" />
-          <root url="file://$MODULE_DIR$/../freemakerTest/.mvn/wrapper" />
-          <root url="file://$MODULE_DIR$/../freemakerTest/src/main/java" />
-          <root url="file://$MODULE_DIR$/../freemakerTest/src/test/java" />
-          <root url="file://$MODULE_DIR$/src/main/java" />
-          <root url="file://$MODULE_DIR$/src/test/java" />
-          <root url="file://$MODULE_DIR$/../jwt_test_pre/src/main/java" />
-          <root url="file://$MODULE_DIR$/../jwt_test_pre/src/test/java" />
-          <root url="file://$MODULE_DIR$/../ylzlzz_nkj_shrjby/src" />
-          <root url="file://$MODULE_DIR$/../ylzlzz_nkj_shrjby/work" />
-        </SOURCES>
-      </library>
-    </orderEntry>
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
@@ -93,11 +69,6 @@
     <orderEntry type="library" name="Maven: org.glassfish.jaxb:txw2:2.3.3" level="project" />
     <orderEntry type="library" name="Maven: com.sun.istack:istack-commons-runtime:3.0.11" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: com.sun.activation:jakarta.activation:1.2.2" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.data:spring-data-jpa:2.3.2.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.data:spring-data-commons:2.3.2.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-orm:5.2.8.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-tx:5.2.8.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-beans:5.2.8.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-aspects:5.2.8.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-freemarker:2.3.2.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter:2.3.2.RELEASE" level="project" />
@@ -208,5 +179,11 @@
     <orderEntry type="library" name="Maven: org.mybatis:mybatis:3.5.3" level="project" />
     <orderEntry type="library" name="Maven: org.mybatis:mybatis-spring:2.0.3" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.21" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.data:spring-data-jpa:2.3.2.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.data:spring-data-commons:2.3.2.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-orm:5.2.8.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-tx:5.2.8.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-beans:5.2.8.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.aspectj:aspectjrt:1.9.6" level="project" />
   </component>
 </module>

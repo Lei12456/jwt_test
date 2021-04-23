@@ -98,4 +98,9 @@ public class UserAdminServiceImpl implements UserAdminService {
         userAdminRepository.updateUserHeader(username,picture);
     }
 
+    @Override
+    public List<TUserAdmin> getAllUserAdmin() {
+        return  userAdminRepository.findAll();
+    }
+
 }

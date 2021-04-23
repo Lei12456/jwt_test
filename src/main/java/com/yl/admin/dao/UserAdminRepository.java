@@ -18,6 +18,7 @@ public interface UserAdminRepository extends JpaRepository<TUserAdmin,Long> {
 
     TUserAdmin getUserAdminByUsername(String username);
 
+
     @Modifying
     @Transactional
     @Query("update t_user tu set tu.picture =:picture where tu.username=:username")

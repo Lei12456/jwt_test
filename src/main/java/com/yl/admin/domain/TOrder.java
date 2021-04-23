@@ -33,7 +33,7 @@ public class TOrder implements Serializable {
 
     @Column(name = "amount_sum")
     private Long amountSum;         //订单总金额
-
+    
     @Column(name = "create_time")   //订单提交时间
     private Date submitTime;
 

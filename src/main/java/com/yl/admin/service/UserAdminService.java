@@ -40,7 +40,6 @@ public interface UserAdminService {
      * @return
      */
     List<TUserPermission> getPermissionList(Long userId);
-
     /**
      * 根据token获取用户信息
      * @param token
@@ -48,7 +47,12 @@ public interface UserAdminService {
      */
     TUserAdmin getUserByToken(String token);
     /**
-     *
+     * 更新用户头像
      */
     void updateUserHeader(String username,String picture);
+
+    /**
+     * 获取用户列表
+     */
+    List<TUserAdmin> getAllUserAdmin();
 }

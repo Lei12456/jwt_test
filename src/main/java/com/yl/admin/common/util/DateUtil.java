@@ -20,4 +20,14 @@ public class DateUtil {
             return null;
         }
     }
+
+    public static String day2Str(Date time) {
+        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd");
+        try {
+            return sdf2.format(time);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

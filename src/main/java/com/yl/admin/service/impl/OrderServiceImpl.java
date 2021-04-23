@@ -1,7 +1,6 @@
 package com.yl.admin.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import com.yl.admin.common.util.DateUtil;
 import com.yl.admin.dao.OrderRepository;
@@ -16,15 +15,10 @@ import com.yl.admin.dto.ProductDto;
 import com.yl.admin.service.OrderService;
 import com.yl.admin.vo.OrderDetailVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.datetime.DateFormatter;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Description:
@@ -58,7 +52,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<TOrder> getOrderByFilterPage(JSONObject jsonObject){
+    public  Map<String,Object> getOrderByFilterPage(JSONObject jsonObject){
+        Map<String,Object> completeMap =  new HashMap<>();
         List<TOrder> orderList = new ArrayList<>();
         //List<String> submitTime = new ArrayList<>();
         Date startTIme = null;
@@ -69,22 +64,40 @@ public class OrderServiceImpl implements OrderService {
             startTIme = DateUtil.str2Day(submitTime.get(0));
             endTime = DateUtil.str2Day(submitTime.get(1));
         }
+        //获取到所要筛选的参数
         JSONObject pageParams  = jsonObject.getJSONObject("pageParams");
         String pageStr = pageParams.get("page") != null ? pageParams.get("page").toString() : "1";
         String pageSizeStr = pageParams.get("pageSize") != null ? pageParams.get("pageSize").toString() : "5";
         Integer pageSize = Integer.parseInt(pageSizeStr);
         Integer page = (Integer.parseInt(pageStr) - 1) * pageSize;
         Integer status = Integer.parseInt(statusStr);
-        if (status == -1 && submitTime.size() == 0){
+        //下面开始筛选
+        if (status == -1 && CollectionUtils.isEmpty(submitTime)){
             orderList = getOrderPage(page,pageSize);
-        }else if(status != -1 &&  submitTime.size() == 0){
+            List<TOrder> allOrder = getAllOrder();
+            if(!CollectionUtils.isEmpty(allOrder)){
+              completeMap.put("total",allOrder.size());
+                completeMap.put("orderList",orderList);
+            }
+        }else if(status != -1 &&  CollectionUtils.isEmpty(submitTime)){
             orderList = orderRepository.getOrderByStatusPage(status, page, pageSize);
-        }else if(submitTime.size() != 0 && status == -1){
+            Integer total = orderRepository.getTOrderByStatusCount(status);
+            completeMap.put("total",total);
+            completeMap.put("orderList",orderList);
+            System.out.println();
+        }else if(!CollectionUtils.isEmpty(submitTime) && status == -1){
             orderList = orderRepository.getOrderBySubmitTime(startTIme,endTime,page,pageSize);
+            Integer total = orderRepository.getTOrderBySubmitCount(startTIme,endTime);
+            completeMap.put("total",total);
+            completeMap.put("orderList",orderList);
+            System.out.println();
         }else {
             orderList = orderRepository.getOrderBySubmitTimeAndStatus(startTIme,endTime,page,pageSize,status);
+            Integer total = orderRepository.getTOrderByCount(startTIme,endTime,status);
+            completeMap.put("total",total);
+            completeMap.put("orderList",orderList);
         }
-        return orderList;
+        return completeMap;
     }
     @Override
     public List<TOrder> getOrderByNumberLike(String number) {

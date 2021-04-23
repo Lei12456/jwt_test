@@ -36,8 +36,8 @@ public class Swagger2Config {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("SwaggerUI演示")
-                .description("jwt-test")
+                .title("微商城后台管理系统")
+                .description("tinyMall")
                 .contact("yl")
                 .version("1.0")
                 .build();

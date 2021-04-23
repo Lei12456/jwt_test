@@ -6,6 +6,7 @@ import com.yl.admin.vo.OrderDetailVo;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Description:订单管理接口
@@ -41,5 +42,5 @@ public interface OrderService {
     /**
      * 分页查询带过滤字段的订单
      */
-    List<TOrder> getOrderByFilterPage(JSONObject jsonObject);
+    Map<String,Object> getOrderByFilterPage(JSONObject jsonObject);
 }

@@ -1,6 +1,7 @@
 package com.yl.admin.domain;
 
 import lombok.Data;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,6 +15,7 @@ import java.util.Date;
  */
 @Data
 @Entity(name = "t_customer")
+@Proxy(lazy = false)
 public class TCustomer  implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

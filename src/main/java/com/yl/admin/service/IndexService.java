@@ -1,5 +1,7 @@
 package com.yl.admin.service;
 
+import com.yl.admin.vo.StatisticalDataVo;
+
 /**
  * Description:
  *
@@ -10,6 +12,6 @@ public interface IndexService {
     /**
      * 获取各项数据
      */
-    getStatisticalData();
+    StatisticalDataVo getStatisticalData();
 
 }

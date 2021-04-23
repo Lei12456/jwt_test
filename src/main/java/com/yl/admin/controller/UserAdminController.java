@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -35,12 +36,6 @@ public class UserAdminController {
     @Autowired
     private UserAdminService userAdminService;
 
-    @Autowired
-    private FastDFSUtils fastDFSUtils;
-
-    @Autowired
-    private RoleService roleService;
-
     @ApiOperation("获取用户信息")
     @RequestMapping(value = "/getUserInfo", method = RequestMethod.GET)
     @ResponseBody
@@ -50,6 +45,26 @@ public class UserAdminController {
             TUserAdmin userInfo = userAdminService.getUserByToken(token);
             commonVo.setCode(ResultCode.SUCCESS.getCode());
             commonVo.setResult(userInfo);
+            commonVo.setMsg(ResultCode.SUCCESS.getMessage());
+            log.info("成功获取用户信息");
+        }catch (Exception e){
+            commonVo.setCode(ResultCode.FAILED.getCode());
+            commonVo.setMsg(ResultCode.FAILED.getMessage());
+            log.info("用户信息获取失败");
+        }
+        return commonVo;
+    }
+
+
+    @ApiOperation("获取用户列表")
+    @RequestMapping(value = "/getAllUserAdmin", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonVo getAllUserAdmin(){
+        CommonVo commonVo = new CommonVo();
+        try {
+            List<TUserAdmin> allUserAdmin = userAdminService.getAllUserAdmin();
+            commonVo.setResult(allUserAdmin);
+            commonVo.setCode(ResultCode.SUCCESS.getCode());
             commonVo.setMsg(ResultCode.SUCCESS.getMessage());
             log.info("成功获取用户信息");
         }catch (Exception e){
