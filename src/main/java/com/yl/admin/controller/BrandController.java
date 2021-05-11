@@ -2,6 +2,7 @@ package com.yl.admin.controller;
 
 import com.yl.admin.common.api.ResultCode;
 import com.yl.admin.domain.TBrand;
+import com.yl.admin.dto.BrandDto;
 import com.yl.admin.service.BrandService;
 import com.yl.admin.vo.CommonVo;
 import io.swagger.annotations.Api;
@@ -9,13 +10,11 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Description:
@@ -54,25 +53,25 @@ public class BrandController {
         return commonVo;
     }
 
-    @ApiOperation("分页查询品牌")
-    @RequestMapping(value = "/getBrandPage", method = RequestMethod.GET)
-    @ResponseBody
-    public CommonVo getBrandPage(Long page,Long pageSize){
-        CommonVo commonVo = new CommonVo();
-        try {
-            List<TBrand> brandPage = brandService.getBrandByPage(page, pageSize);
-            commonVo.setResult(brandPage);
-            commonVo.setCode(ResultCode.SUCCESS.getCode());
-            commonVo.setMsg(ResultCode.SUCCESS.getMessage());
-            log.info("分页查询品牌成功");
-        }catch (Exception e){
-            e.printStackTrace();
-            commonVo.setCode(ResultCode.FAILED.getCode());
-            commonVo.setMsg(ResultCode.FAILED.getMessage());
-            log.error("分页查询品牌成功");
-        }
-        return commonVo;
-    }
+    // @ApiOperation("分页查询品牌")
+    // @RequestMapping(value = "/getBrandPage", method = RequestMethod.GET)
+    // @ResponseBody
+    // public CommonVo getBrandPage(Long page,Long pageSize){
+    //     CommonVo commonVo = new CommonVo();
+    //     try {
+    //         List<TBrand> brandPage = brandService.getBrandByPage(page, pageSize);
+    //         commonVo.setResult(brandPage);
+    //         commonVo.setCode(ResultCode.SUCCESS.getCode());
+    //         commonVo.setMsg(ResultCode.SUCCESS.getMessage());
+    //         log.info("分页查询品牌成功");
+    //     }catch (Exception e){
+    //         e.printStackTrace();
+    //         commonVo.setCode(ResultCode.FAILED.getCode());
+    //         commonVo.setMsg(ResultCode.FAILED.getMessage());
+    //         log.error("分页查询品牌成功");
+    //     }
+    //     return commonVo;
+    // }
 
     @ApiOperation("通过名字查询品牌")
     @RequestMapping(value = "/getBrandByName", method = RequestMethod.GET)
@@ -80,8 +79,8 @@ public class BrandController {
     public CommonVo getBrandByName(String name,Long page,Long pageSize){
         CommonVo commonVo = new CommonVo();
         try {
-            List<TBrand> brandList = brandService.getBrandByNameLike(name, page, pageSize);
-            commonVo.setResult(brandList);
+            Map<String,Object> map = brandService.getBrandByNameLikePage(name, page, pageSize);
+            commonVo.setResult(map);
             commonVo.setCode(ResultCode.SUCCESS.getCode());
             commonVo.setMsg(ResultCode.SUCCESS.getMessage());
             log.info("分页查询品牌成功");
@@ -94,10 +93,33 @@ public class BrandController {
         return commonVo;
     }
 
+
+    @ApiOperation("获取一个类型下的所有品牌")
+    @RequestMapping(value = "/getBrandBySubtype", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonVo getBrandBySubtype(Long sybTypeId){
+        CommonVo commonVo = new CommonVo();
+        try {
+            List<TBrand> brandList = brandService.getBrandBySubType(sybTypeId);
+            commonVo.setResult(brandList);
+            commonVo.setCode(ResultCode.SUCCESS.getCode());
+            commonVo.setMsg(ResultCode.SUCCESS.getMessage());
+            log.info("");
+        }catch (Exception e){
+            e.printStackTrace();
+            commonVo.setCode(ResultCode.FAILED.getCode());
+            commonVo.setMsg(ResultCode.FAILED.getMessage());
+            log.error("");
+        }
+        return commonVo;
+    }
+
+
+
     @ApiOperation("添加或者更新品牌")
     @RequestMapping(value = "/addOrUpdateBrand", method = RequestMethod.POST)
     @ResponseBody
-    public CommonVo addOrUpdateProduct(@RequestBody TBrand brand){
+    public CommonVo addOrUpdateProduct(@RequestBody BrandDto brand){
         CommonVo commonVo = new CommonVo();
         try {
             brandService.addOrUpdateBrand(brand);

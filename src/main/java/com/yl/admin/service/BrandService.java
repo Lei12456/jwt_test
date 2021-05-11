@@ -1,8 +1,10 @@
 package com.yl.admin.service;
 
 import com.yl.admin.domain.TBrand;
+import com.yl.admin.dto.BrandDto;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Description:品牌管理的逻辑层
@@ -16,13 +18,9 @@ public interface BrandService  {
      */
     List<TBrand> getAllBrand();
     /**
-     * 分页查询所有品牌
-     */
-    List<TBrand> getBrandByPage(Long page,Long pageSize);
-    /**
      * 添加或者更新品牌
      */
-    void addOrUpdateBrand(TBrand brand);
+    void addOrUpdateBrand(BrandDto brand);
     /**
      * 删除
      */
@@ -30,5 +28,9 @@ public interface BrandService  {
     /**
      * 通过名字模糊查询
      */
-    List<TBrand> getBrandByNameLike(String name,Long page,Long pageSize);
+    Map<String,Object> getBrandByNameLikePage(String name, Long page, Long pageSize);
+    /**
+     * 获取一个类型下面的所有品牌
+     */
+    List<TBrand> getBrandBySubType(Long subType);
 }

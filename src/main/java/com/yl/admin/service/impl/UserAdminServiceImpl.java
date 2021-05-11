@@ -2,8 +2,10 @@ package com.yl.admin.service.impl;
 
 import com.yl.admin.common.util.JwtTokenUtil;
 import com.yl.admin.dao.PermissionRepository;
+import com.yl.admin.dao.RoleRepository;
 import com.yl.admin.dao.UserAdminRepository;
 import com.yl.admin.dao.UserPermissionRelationRepository;
+import com.yl.admin.domain.TRole;
 import com.yl.admin.domain.TUserPermission;
 import com.yl.admin.domain.TUserAdmin;
 import com.yl.admin.domain.TUserPermissionRelation;
@@ -45,6 +47,9 @@ public class UserAdminServiceImpl implements UserAdminService {
     @Autowired
     private PermissionRepository permissionRepository;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
     @Override
     public TUserAdmin getUserByUsername(String username) {
         return userAdminRepository.getUserAdminByUsername(username);
@@ -52,7 +57,6 @@ public class UserAdminServiceImpl implements UserAdminService {
 
     @Override
     public void register(TUserAdmin tUserAdmin) {
-        tUserAdmin.setPicture("http://39.108.158.38:8888/group1/M00/00/00/J2yeJmBlet2AOuu3AAOazZefOmI24.jpeg");
         tUserAdmin.setStatus(4);
         userAdminRepository.save(tUserAdmin);
     }
@@ -101,6 +105,26 @@ public class UserAdminServiceImpl implements UserAdminService {
     @Override
     public List<TUserAdmin> getAllUserAdmin() {
         return  userAdminRepository.findAll();
+    }
+
+    @Override
+    public void deleteUser(Long id) {
+        userAdminRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteRole(Long id) {
+        roleRepository.deleteById(id);
+    }
+
+    @Override
+    public void saveOrUpdateRole(TRole role) {
+        roleRepository.save(role);
+    }
+
+    @Override
+    public List<TRole> getAllRole() {
+        return roleRepository.findAll();
     }
 
 }

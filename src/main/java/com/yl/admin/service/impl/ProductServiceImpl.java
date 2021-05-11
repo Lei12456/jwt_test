@@ -66,6 +66,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void addOrUpdateProduct(ProductDto productDto) {
         TProduct tProduct = new TProduct();
+        boolean simpleProperty = BeanUtils.isSimpleProperty(productDto.getClass());
         BeanUtils.copyProperties(productDto,tProduct);
         if (productDto.getSubTypeId() != null && productDto.getBrandId() != null){
             TProductSubType subType = productSubTypeRepository.getOne(productDto.getSubTypeId());
@@ -97,7 +98,6 @@ public class ProductServiceImpl implements ProductService {
         Long brandSearch = Long.parseLong(filterParams.get("brandSearch").toString() == "" ? "0" : filterParams.get("brandSearch").toString());
         Long subTypeSearch = Long.parseLong(filterParams.get("subTypeSearch").toString() == "" ? "0" : filterParams.get("subTypeSearch").toString());
         Object nameSearch = filterParams.get("nameSearch");
-
         return productQueryRepository.getProductByFilter(brandSearch,subTypeSearch,nameSearch.toString(),currentPage,pageSize);
     }
 

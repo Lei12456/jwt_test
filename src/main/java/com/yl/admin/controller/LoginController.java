@@ -1,8 +1,10 @@
 package com.yl.admin.controller;
 
 import com.yl.admin.common.api.ResultCode;
+import com.yl.admin.domain.TRole;
 import com.yl.admin.domain.TUserAdmin;
 import com.yl.admin.dto.UserAdminDto;
+import com.yl.admin.service.RoleService;
 import com.yl.admin.service.UserAdminService;
 import com.yl.admin.vo.CommonVo;
 import io.swagger.annotations.Api;
@@ -31,6 +33,9 @@ public class LoginController {
 
     @Autowired
     private UserAdminService userAdminService;
+
+    @Autowired
+    private RoleService roleService;
 
     @Value("${jwt.tokenHead}")
     private String tokenHead;
@@ -66,21 +71,30 @@ public class LoginController {
         try {
             TUserAdmin userAdmin = new TUserAdmin();
             BeanUtils.copyProperties(userAdminDto, userAdmin);
-            if (userAdminDto.getUsername() != null) {
-                TUserAdmin user = userAdminService.getUserByUsername(userAdminDto.getUsername());
-                if (user == null){
-                    userAdminService.register(userAdmin);
-                    log.info("用户注册成功");
-                    commonVo.setCode(ResultCode.SUCCESS.getCode());
-                    commonVo.setMsg(ResultCode.SUCCESS.getMessage());
-                }else {
-                    log.warn("用户名已存在");
-
-                    commonVo.setCode(ResultCode.FAILED.getCode());
-                    commonVo.setMsg("用户名已存在");
+            TRole role = roleService.getRoleById(userAdminDto.getRoleId());
+            userAdmin.setRole(role);
+            if(userAdminDto.getId() == null){
+                if (userAdminDto.getUsername() != null) {
+                    TUserAdmin user = userAdminService.getUserByUsername(userAdminDto.getUsername());
+                    if (user == null){
+                        userAdminService.register(userAdmin);
+                        log.info("用户注册成功");
+                        commonVo.setCode(ResultCode.SUCCESS.getCode());
+                        commonVo.setMsg(ResultCode.SUCCESS.getMessage());
+                    }else {
+                        log.warn("用户名已存在");
+                        commonVo.setCode(ResultCode.FAILED.getCode());
+                        commonVo.setMsg("用户名已存在");
+                    }
                 }
+            }else {
+                userAdminService.register(userAdmin);
+                commonVo.setCode(ResultCode.SUCCESS.getCode());
+                commonVo.setMsg(ResultCode.SUCCESS.getMessage());
+                log.info("用户修改成功");
             }
         }catch (Exception e){
+            e.printStackTrace();
             log.error("用户注册失败",e);
             commonVo.setCode(ResultCode.FAILED.getCode());
             commonVo.setMsg(ResultCode.FAILED.getMessage());

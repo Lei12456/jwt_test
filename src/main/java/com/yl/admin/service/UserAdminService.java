@@ -1,5 +1,6 @@
 package com.yl.admin.service;
 
+import com.yl.admin.domain.TRole;
 import com.yl.admin.domain.TUserAdmin;
 import com.yl.admin.domain.TUserPermission;
 
@@ -55,4 +56,21 @@ public interface UserAdminService {
      * 获取用户列表
      */
     List<TUserAdmin> getAllUserAdmin();
+    /**
+     * 删除用户
+     */
+    void deleteUser(Long id);
+    /**
+     * 删除角色
+     */
+    void deleteRole(Long id);
+    /**
+     * 添加或修改角色
+     */
+    void saveOrUpdateRole(TRole role);
+    /**
+     * 获取所有角色
+     */
+    List<TRole> getAllRole();
+
 }

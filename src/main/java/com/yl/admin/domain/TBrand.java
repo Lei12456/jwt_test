@@ -1,5 +1,6 @@
 package com.yl.admin.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ import java.io.Serializable;
 
 @Data
 @Entity(name = "t_brand")
+@JsonIgnoreProperties(value = {"hibernateLazyInitializer", "handler"})
 public class TBrand implements Serializable {
 
     @Id

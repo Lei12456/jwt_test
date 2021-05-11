@@ -1,6 +1,7 @@
 package com.yl.admin.controller;
 
 import com.yl.admin.common.api.ResultCode;
+import com.yl.admin.domain.TRole;
 import com.yl.admin.domain.TUserAdmin;
 import com.yl.admin.service.RoleService;
 import com.yl.admin.service.UserAdminService;
@@ -48,6 +49,7 @@ public class UserAdminController {
             commonVo.setMsg(ResultCode.SUCCESS.getMessage());
             log.info("成功获取用户信息");
         }catch (Exception e){
+            e.printStackTrace();
             commonVo.setCode(ResultCode.FAILED.getCode());
             commonVo.setMsg(ResultCode.FAILED.getMessage());
             log.info("用户信息获取失败");
@@ -68,9 +70,26 @@ public class UserAdminController {
             commonVo.setMsg(ResultCode.SUCCESS.getMessage());
             log.info("成功获取用户信息");
         }catch (Exception e){
+            e.printStackTrace();
             commonVo.setCode(ResultCode.FAILED.getCode());
             commonVo.setMsg(ResultCode.FAILED.getMessage());
             log.info("用户信息获取失败");
+        }
+        return commonVo;
+    }
+    @ApiOperation("获取角色列表")
+    @RequestMapping(value = "/getAllRole", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonVo getAllRole(){
+        CommonVo commonVo = new CommonVo();
+        try {
+            commonVo.setResult(userAdminService.getAllRole());
+            commonVo.setCode(ResultCode.SUCCESS.getCode());
+            commonVo.setMsg(ResultCode.SUCCESS.getMessage());
+        }catch (Exception e){
+            e.printStackTrace();
+            commonVo.setCode(ResultCode.FAILED.getCode());
+            commonVo.setMsg(ResultCode.FAILED.getMessage());
         }
         return commonVo;
     }
@@ -87,10 +106,53 @@ public class UserAdminController {
             commonVo.setMsg("上传头像成功");
             log.info("上传成功");
         }catch (Exception e){
+            e.printStackTrace();
             commonVo.setCode(ResultCode.FAILED.getCode());
             commonVo.setResult("");
             commonVo.setMsg(ResultCode.FAILED.getMessage());
             log.info("上传失败");
+        }
+        return commonVo;
+    }
+
+
+    @ApiOperation("添加角色")
+    @RequestMapping(value = "/saveOrUpdateRole", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonVo saveOrUpdateRole(TRole role){
+        CommonVo commonVo = new CommonVo();
+        try {
+            role.setStatus(1);
+            userAdminService.saveOrUpdateRole(role);
+            commonVo.setCode(ResultCode.SUCCESS.getCode());
+            commonVo.setMsg(ResultCode.SUCCESS.getMessage());
+        }catch (Exception e){
+            e.printStackTrace();
+            commonVo.setCode(ResultCode.FAILED.getCode());
+            commonVo.setMsg(ResultCode.FAILED.getMessage());
+        }
+        return commonVo;
+    }
+
+    @ApiOperation("删除用户或者角色")
+    @RequestMapping(value = "/deleteUserOrRole", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonVo deleteUserOrRole(@RequestParam Long roleId, @RequestParam Long userId){
+        CommonVo commonVo = new CommonVo();
+        try {
+            if (roleId == null){
+                userAdminService.deleteUser(userId);
+                System.out.println();
+            }else {
+                userAdminService.deleteRole(roleId);
+                System.out.println();
+            }
+            commonVo.setCode(ResultCode.SUCCESS.getCode());
+            commonVo.setMsg(ResultCode.SUCCESS.getMessage());
+        }catch (Exception e){
+            e.printStackTrace();
+            commonVo.setCode(ResultCode.FAILED.getCode());
+            commonVo.setMsg(ResultCode.FAILED.getMessage());
         }
         return commonVo;
     }
